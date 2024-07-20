@@ -26,8 +26,9 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 16px;
-            padding: 16px;
-            background-color: black;
+            padding: 20px;
+            
+            background-color:black;
         }
 
         .pin {
@@ -40,7 +41,9 @@
             transition: transform 0.3s ease-in-out;
             cursor: pointer;
             background-color:black;
+            margin-bottom: 10vh;
             height: fit-content;
+            
         }
 
         .pin:hover img {
@@ -122,9 +125,14 @@
 
     <header>
         <h1> feed</h1>
+
+        <link
+href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+rel="stylesheet"
+/>
     </header>
 
-    <div class="pins-container">
+    <div class="pins-container p-2">
         <% posts.forEach(elem => { %>
 
            <a class="text-decoration-none" href="/feed/<%= elem.id  %>">
@@ -137,6 +145,15 @@
                    </div>
                    <h3>@<%= elem.user.username  %></h3>
                </div>
+
+
+              
+               <div class="text-white d-flex align-items-center gap-1 justify-content-center">
+                <a class="btn btn-primary mt-4 " href="/save/<%= elem.id  %>">
+                    <%= user.saved.indexOf(elem.id)== -1 ? "save" : "saved"  %>
+                </a>
+                <i class="<%= user.saved.indexOf(elem.id)== -1 ? "ri-bookmark-line" : "ri-bookmark-fill"  %>"></i>
+            </div>
                
           
             </div>

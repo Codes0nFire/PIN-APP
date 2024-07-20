@@ -90,6 +90,11 @@
             background-color: #fff;
         }
     </style>
+
+<link
+href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+rel="stylesheet"
+/>
 </head>
 <body>
     <nav class="w-100 bg-black text-white text-black d-flex align-items-center justify-content-around  py-3" >
@@ -116,12 +121,13 @@
                  <h3><%= elem.title  %></h3>
                
                   <a class="btn btn-danger " href="/delete/<%= elem.id  %>">Delete</a>
+                 
              </div>
             
        <% }); %>
 
 
-        <!-- Add more pins as needed -->
+      
 
     </div>
 

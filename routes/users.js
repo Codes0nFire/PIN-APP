@@ -28,7 +28,15 @@ userposts:[
   type:mongoose.Schema.Types.ObjectId,
     ref:"post",
  }
-]
+],
+
+
+saved:[
+  {
+   type:mongoose.Schema.Types.ObjectId,
+     ref:"post",
+  }
+ ]
 
 })
 

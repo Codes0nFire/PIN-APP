@@ -127,8 +127,10 @@ router.get('/profile',isloggedIn,async (req, res, next) => {
 
 
  router.get('/feed',isloggedIn,async (req, res, next) => {
-  var user= await userModel.findOne({username:req.session.passport.user}).populate("userposts");
+  var user= await userModel.findOne({username:req.session.passport.user});
   var posts= await postModel.find().populate("user");
+
+
 
   res.render("feed",{user,posts});
  
@@ -156,6 +158,34 @@ router.get('/profile',isloggedIn,async (req, res, next) => {
 
    res.redirect("back"); 
  })
+
+
+
+
+ // save posts
+
+
+
+ router.get('/save/:PostId',isloggedIn,async (req, res, next) => {
+
+  let user= await userModel.findOne({username:req.session.passport.user});
+
+
+  if(user.saved.indexOf(req.params.PostId) == -1){
+    user.saved.push(req.params.PostId);
+
+  }
+  else{
+    user.saved.splice(user.saved.indexOf(req.params.PostId),1)
+
+  }
+
+   await user.save();
+   console.log(user);
+   res.redirect("back");
+
+ 
+})
 
 
 
