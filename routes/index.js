@@ -116,7 +116,8 @@ user:user._id,
 
 
 router.get('/profile',isloggedIn,async (req, res, next) => {
-  var user= await userModel.findOne({username:req.session.passport.user}).populate("userposts");
+  var user= await userModel.findOne({username:req.session.passport.user}).populate("userposts").populate("saved");
+  console.log(user);
   res.render("profile",{user})
  })
 
@@ -177,14 +178,37 @@ router.get('/profile',isloggedIn,async (req, res, next) => {
   }
   else{
     user.saved.splice(user.saved.indexOf(req.params.PostId),1)
-
   }
-
    await user.save();
-   console.log(user);
+  //  console.log(user);
    res.redirect("back");
+})
 
- 
+
+
+// rendering saved page
+
+
+router.get('/mysavedpins',isloggedIn,async (req, res, next) => {
+
+  // let user= await userModel.findOne({username:req.session.passport.user}).populate("saved");
+
+
+
+// ----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+const loguser = await userModel.findOne({ username: req.session.passport.user })
+.populate({
+  path: 'saved',
+  populate: {
+    path: 'user', // This will populate the user field inside each Post
+    model: 'user' // Ensure you specify the model name if necessary
+  }
+});
+// console.log(loguser.saved[0]._id);
+  res.render("saved",{user:loguser});
+  
+  
 })
 
 
