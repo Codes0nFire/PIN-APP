@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.card {
+  width: 360px;
+  height: fit-content;
+  padding: 16px;
+  background-color: azure;
+  border-radius: 8px;
+}
+
+.card img {
+  width: 100%;
+}
+
+.card .card-header {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.card .card-header .location {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgb(255, 255, 255);
+  padding: 8px;
+  border-radius: 4px;
+  color: rgb(43, 42, 42);
+}
+
+.card .location i {
+  color: rgb(248, 34, 6);
+}
+
+.card .card-body {
+  padding: 16px 0 18px;
+}
+
+.card .card-body h3 {
+  color: #0a0516ec;
+  font-size: 24px;
+}
+
+.card .card-body p {
+  color: rgb(58, 58, 58);
+  font-size: 16px;
+  font-weight: 500;
+  margin: 4px 0 0;
+}
+
+.card .footer {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.card .footer .apply {
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  padding: 8px 16px;
+  background-color: rgb(3, 87, 243);
+  border-radius: 4px;
+  transition: transform 0.3s ease-in-out;
+   text-decoration: none;
+}
+
+.card .footer .apply:hover {
+  background-color: rgb(30, 109, 255);
+  transform: scale(1.02);
+ 
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="card">
+       <div class="card-header">
+          <img src="/images/uploads/<%= post.image  %>" alt="" srcset="">
+         
+       </div>
+       <div class="card-body">
+          <h3><%= post.title  %></h3>
+          <p><%= post.description  %></p>
+       </div>
+       <div class="footer">
+          <a href="/feed"  class="apply">Feed</a>
+       </div>
+    </div>
+    </div>
+ </body>
+</html>
