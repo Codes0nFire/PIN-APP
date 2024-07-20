@@ -100,6 +100,7 @@
         </div>
         <div class="d-flex gap-4">
           <a class="btn btn-primary  " href="/profile">Profile</a>
+          <a class="btn btn-primary  " href="/feed">Home</a>
         
           <a class="btn btn-danger" href="/logout">Logout</a>
         </div>
@@ -113,10 +114,12 @@
         <img src="/images/uploads/<%=user.profileImage  %>" alt="Profile Picture">
         <h1>@ <%= user.username  %> </h1>
        
-        <p class="follow-info">HENRYHB07 · 1.5k followers · 149 following</p>
+        <p class="follow-info"> <%=user.followers.length  %> followers · <%=user.following.length  %> following</p>
         <div class="btn-group">
           
-            <button type="button" class="btn btn-danger">Follow</button>
+            <a href="/follow/<%=user.id  %>" type="button" class="btn btn-danger">
+              <%= user.followers.indexOf(loguser._id) == -1 ? "Follow" : "Following"  %>
+            </a>
            
         </div>
     </div>
@@ -133,7 +136,7 @@
            
             <div class="pin">
                 <img src="/images/uploads/<%= post.image  %>" alt="Pin 1">
-                <h3><%= post.title  %></h3>
+                <h6><%= post.title  %></h6>
                
               
 

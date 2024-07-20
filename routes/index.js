@@ -235,12 +235,47 @@ else{
   res.redirect("/profile")
 
 }
- 
- 
+  
+ })
+
+
+
+
+ // follow 
+
+ router.get('/follow/:userId',isloggedIn,async (req, res, next) => {
+
+  let user= await userModel.findOne({username:req.session.passport.user});
+  let profileuser= await userModel.findOne({_id:req.params.userId});
+
+  if(user.following.indexOf(req.params.userId) == -1){
+    user.following.push(req.params.userId);
+    profileuser.followers.push(user._id);
+
+  }
+  else{
+    user.following.splice(user.following.indexOf(req.params.userId),1)
+    profileuser.followers.splice(profileuser.followers.indexOf(user._id),1);
+
+  }
+   await user.save();
+   await profileuser.save();
+
+
+  //  console.log(user,profileuser);
 
 
   
- })
+  //  console.log(user);
+   res.redirect("back");
+})
+
+
+
+
+
+
+
 
 
 module.exports = router;
