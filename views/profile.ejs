@@ -26,7 +26,7 @@
         .profile {
             width:80%;
             margin: 20px auto;
-            background-color: white;
+            background-color: black;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -34,6 +34,8 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            color: white;
+          
            
         }
 
@@ -43,6 +45,7 @@
             border-radius: 50%;
             margin-bottom: 20px;
             object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.294);
         }
 
         .profile h1 {
@@ -76,7 +79,7 @@
       <h5 >Pinterest</h5>
     </div>
     <div class="d-flex gap-4">
-      <a class="btn btn-primary  " href="/profile">Profile</a>
+      <!-- <a class="btn btn-primary  " href="/profile">Profile</a> -->
       <a class="btn btn-primary" href="/feed">Home</a>
       <!-- <a class="btn btn-primary" href="/allposts">Posts</a> -->
       <a class="btn btn-danger" href="/logout">Logout</a>
@@ -93,11 +96,11 @@
         <img src="/images/uploads/<%= user.profileImage %>" alt="Profile Picture">
        <div class="pencil-box bg-black d-flex align-items-center justify-content-center position-absolute  bottom-0 rounded-5 " > <i class="ri-pencil-fill text-light "></i></div>
       </div>
-        <h1><%= user.name  %></h1>
-        <p>@<%= user.username  %></p>
+        <h1 class="text-white"><%= user.name  %></h1>
+        <p class="text-white">@<%= user.username  %></p>
      <div class="d-flex gap-2">
         <a class="btn btn-primary" href="/edit">Edit</a>
-        <a class="btn btn-danger" href="/add">Post</a>
+        <a class="btn btn-danger" href="/add">Create Pin</a>
      </div>
        
     </div> 
@@ -109,7 +112,7 @@
         <div class="card" style="width: 15rem;">
             <img src="/images/uploads/<%= user?.userposts[0]?.image  %>" class="card-img-top" alt="...">
             <div class="card-body">
-              <a href="/allposts"  class=" btn btn-outline-dark  card-title">Your Pins :<%= user.userposts.length  %> </a>
+              <a href="/allposts"  class=" btn btn-outline-dark  card-title">Created Pins :<%= user.userposts.length  %> </a>
             </div>
             
           </div>

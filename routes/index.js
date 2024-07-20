@@ -117,7 +117,7 @@ user:user._id,
 
 router.get('/profile',isloggedIn,async (req, res, next) => {
   var user= await userModel.findOne({username:req.session.passport.user}).populate("userposts").populate("saved");
-  console.log(user);
+  // console.log(user);
   res.render("profile",{user})
  })
 
@@ -212,6 +212,35 @@ const loguser = await userModel.findOne({ username: req.session.passport.user })
 })
 
 
+
+// member proffile page
+
+
+router.get('/profile/member/:userId',isloggedIn,async (req, res, next) => {
+  const loguser= await userModel.findOne({username:req.session.passport.user});
+ 
+  const memberuser= await userModel.findOne({_id:req.params.userId}).populate("userposts");
+
+
+  // console.log(loguser._id , );
+
+if(!loguser._id.equals(memberuser._id)){
+
+  res.render("member",{user:memberuser,loguser});
+
+}
+
+else{
+
+  res.redirect("/profile")
+
+}
+ 
+ 
+
+
+  
+ })
 
 
 module.exports = router;
