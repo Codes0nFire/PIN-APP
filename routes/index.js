@@ -1,281 +1,317 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-const upload=require("./multer");
-var userModel=require("./users");
-var postModel=require("./post");
-var express = require('express')
+const upload = require("./multer");
+var userModel = require("./users");
+var postModel = require("./post");
+var commentModel=require("./comment");
+var express = require("express");
 var router = express.Router();
-var passport = require('passport')
-var localStrategy = require('passport-local')
-passport.use(new localStrategy(userModel.authenticate()))
-
-
+var passport = require("passport");
+var localStrategy = require("passport-local");
+passport.use(new localStrategy(userModel.authenticate()));
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
 
-router.post('/register', (req, res, next) => {
-var newUser = {
-username:req.body.username,
+router.post("/register", (req, res, next) => {
+  var newUser = {
+    username: req.body.username,
 
-name:req.body.name,
+    name: req.body.name,
 
- profileImage:req.body.profileImage,
-email:req.body.email,
-};
-userModel
-.register(newUser, req.body.password)
-.then((result) => {
-passport.authenticate('local')(req, res, () => {
-res.redirect('/profile');
+    profileImage: req.body.profileImage,
+    email: req.body.email,
+  };
+  userModel
+    .register(newUser, req.body.password)
+    .then((result) => {
+      passport.authenticate("local")(req, res, () => {
+        res.redirect("/profile");
+      });
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
-})
-.catch((err) => {
-res.send(err);
+
+router.get("/register", (req, res, next) => {
+  res.render("register");
 });
-});
-
-
-router.get('/register', (req, res, next) => {
- res.render("register")
-})
-
-
-
 
 router.post(
-'/login',
-passport.authenticate('local', {
-successRedirect: '/profile',
-failureRedirect: '/',
-}),
-(req, res, next) => {}
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/profile",
+    failureRedirect: "/",
+  }),
+  (req, res, next) => {}
 );
 
-
-router.get('/login', (req, res, next) => {
-res.render("profile")
-})
-
+router.get("/login", (req, res, next) => {
+  res.render("profile");
+});
 
 function isloggedIn(req, res, next) {
-if (req.isAuthenticated()) return next();
-else res.redirect('/');
-
+  if (req.isAuthenticated()) return next();
+  else res.redirect("/");
 }
 
-
-router.get('/logout', (req, res, next) => {
-if (req.isAuthenticated())
-req.logout((err) => {
-if (err) res.send(err);
-else res.redirect('/');
+router.get("/logout", (req, res, next) => {
+  if (req.isAuthenticated())
+    req.logout((err) => {
+      if (err) res.send(err);
+      else res.redirect("/");
+    });
+  else {
+    res.redirect("/");
+  }
 });
-else {
-res.redirect('/');
-}
-});
-router.get('/',isloggedIn, function(req, res, next) {
-res.render('index', { title: 'Express' });
-});
-
-router.post('/fileupload',isloggedIn,upload.single("image"),async function(req, res, next) {
- var user=await userModel.findOne({username:req.session.passport.user});
- user.profileImage=req.file.filename;
- await user.save();
- res.redirect("/profile");
-
+router.get("/", isloggedIn, function (req, res, next) {
+  res.render("index", { title: "Express" });
 });
 
-router.get('/add',isloggedIn, function(req, res, next) {
-  res.render('add');
+router.post(
+  "/fileupload",
+  isloggedIn,
+  upload.single("image"),
+  async function (req, res, next) {
+    var user = await userModel.findOne({ username: req.session.passport.user });
+    user.profileImage = req.file.filename;
+    await user.save();
+    res.redirect("/profile");
+  }
+);
+
+router.get("/add", isloggedIn, function (req, res, next) {
+  res.render("add");
 });
 
+router.post(
+  "/createpost",
+  isloggedIn,
+  upload.single("postimage"),
+  async function (req, res, next) {
+    var user = await userModel.findOne({ username: req.session.passport.user });
 
-router.post('/createpost',isloggedIn,upload.single("postimage"),async function(req, res, next) {
-var user= await userModel.findOne({username:req.session.passport.user});
+    var post = await postModel.create({
+      title: req.body.title,
+      description: req.body.description,
+      image: req.file.filename,
+      user: user._id,
+    });
 
-  var post= await postModel.create({
+    user.userposts.push(post._id);
+    await user.save();
 
-    title:req.body.title,
-description:req.body.description,
-image:req.file.filename,
-user:user._id,
+    res.redirect("/profile");
+  }
+);
 
-  })
-
-  user.userposts.push(post._id);
-  await user.save();
- 
-  res.redirect("/profile");
- 
-});
-
-
-router.get('/profile',isloggedIn,async (req, res, next) => {
-  var user= await userModel.findOne({username:req.session.passport.user}).populate("userposts").populate("saved");
+router.get("/profile", isloggedIn, async (req, res, next) => {
+  var user = await userModel
+    .findOne({ username: req.session.passport.user })
+    .populate("userposts")
+    .populate("saved");
   // console.log(user);
-  res.render("profile",{user})
- })
+  res.render("profile", { user });
+});
 
- router.get('/allposts',isloggedIn,async (req, res, next) => {
-  var user= await userModel.findOne({username:req.session.passport.user}).populate("userposts");
-  res.render("allposts",{user})
- })
+router.get("/allposts", isloggedIn, async (req, res, next) => {
+  var user = await userModel
+    .findOne({ username: req.session.passport.user })
+    .populate("userposts");
+  res.render("allposts", { user });
+});
 
+router.get("/feed", isloggedIn, async (req, res, next) => {
+  var user = await userModel.findOne({ username: req.session.passport.user });
+  var posts = await postModel.find().populate("user");
 
- router.get('/feed',isloggedIn,async (req, res, next) => {
-  var user= await userModel.findOne({username:req.session.passport.user});
-  var posts= await postModel.find().populate("user");
+  res.render("feed", { user, posts });
+});
 
-
-
-  res.render("feed",{user,posts});
- 
- })
-
- 
- router.get('/feed/:PostId',isloggedIn,async (req, res, next) => {
-  var user= await userModel.findOne({username:req.session.passport.user}).populate("userposts");
-  var post= await postModel.findOne({_id:req.params.PostId}).populate("user");
-
-  res.render("pins",{user,post});
-  
-
- 
-
-
-  
- })
-
-
-
- router.get('/delete/:PostId',isloggedIn,async (req, res, next) => {
-  
-   await postModel.findOneAndDelete({_id:req.params.PostId});
-
-   res.redirect("back"); 
- })
+router.get("/feed/:PostId", isloggedIn, async (req, res, next) => {
+  var user = await userModel
+    .findOne({ username: req.session.passport.user })
+    .populate("userposts");
+  var post = await postModel
+    .findOne({ _id: req.params.PostId })
+    .populate("user")
+    .populate({
+      path:"comment",
+      populate:{
+        path:"user",
+        model:"user"
+      }
+    });
+    
 
 
+    
 
+    console.log(post);
 
- // save posts
+  res.render("pins", { user, post });
+});
 
+router.get("/delete/:PostId", isloggedIn, async (req, res, next) => {
+  await postModel.findOneAndDelete({ _id: req.params.PostId });
 
+  res.redirect("back");
+});
 
- router.get('/save/:PostId',isloggedIn,async (req, res, next) => {
+// save posts
 
-  let user= await userModel.findOne({username:req.session.passport.user});
+router.get("/save/:PostId", isloggedIn, async (req, res, next) => {
+  let user = await userModel.findOne({ username: req.session.passport.user });
 
-
-  if(user.saved.indexOf(req.params.PostId) == -1){
+  if (user.saved.indexOf(req.params.PostId) == -1) {
     user.saved.push(req.params.PostId);
-
+  } else {
+    user.saved.splice(user.saved.indexOf(req.params.PostId), 1);
   }
-  else{
-    user.saved.splice(user.saved.indexOf(req.params.PostId),1)
-  }
-   await user.save();
+  await user.save();
   //  console.log(user);
-   res.redirect("back");
-})
-
-
+  res.redirect("back");
+});
 
 // rendering saved page
 
-
-router.get('/mysavedpins',isloggedIn,async (req, res, next) => {
-
+router.get("/mysavedpins", isloggedIn, async (req, res, next) => {
   // let user= await userModel.findOne({username:req.session.passport.user}).populate("saved");
 
-
-
-// ----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-const loguser = await userModel.findOne({ username: req.session.passport.user })
-.populate({
-  path: 'saved',
-  populate: {
-    path: 'user', // This will populate the user field inside each Post
-    model: 'user' // Ensure you specify the model name if necessary
-  }
+  // ----------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------
+  const loguser = await userModel
+    .findOne({ username: req.session.passport.user })
+    .populate({
+      path: "saved",
+      populate: {
+        path: "user", // This will populate the user field inside each Post
+        model: "user", // Ensure you specify the model name if necessary
+      },
+    });
+  // console.log(loguser.saved[0]._id);
+  res.render("saved", { user: loguser });
 });
-// console.log(loguser.saved[0]._id);
-  res.render("saved",{user:loguser});
-  
-  
-})
-
-
 
 // member proffile page
 
+router.get("/profile/member/:userId", isloggedIn, async (req, res, next) => {
+  const loguser = await userModel.findOne({
+    username: req.session.passport.user,
+  });
 
-router.get('/profile/member/:userId',isloggedIn,async (req, res, next) => {
-  const loguser= await userModel.findOne({username:req.session.passport.user});
- 
-  const memberuser= await userModel.findOne({_id:req.params.userId}).populate("userposts");
-
+  const memberuser = await userModel
+    .findOne({ _id: req.params.userId })
+    .populate("userposts");
 
   // console.log(loguser._id , );
 
-if(!loguser._id.equals(memberuser._id)){
+  if (!loguser._id.equals(memberuser._id)) {
+    res.render("member", { user: memberuser, loguser });
+  } else {
+    res.redirect("/profile");
+  }
+});
 
-  res.render("member",{user:memberuser,loguser});
+// follow
 
-}
+router.get("/follow/:userId", isloggedIn, async (req, res, next) => {
+  let user = await userModel.findOne({ username: req.session.passport.user });
+  let profileuser = await userModel.findOne({ _id: req.params.userId });
 
-else{
-
-  res.redirect("/profile")
-
-}
-  
- })
-
-
-
-
- // follow 
-
- router.get('/follow/:userId',isloggedIn,async (req, res, next) => {
-
-  let user= await userModel.findOne({username:req.session.passport.user});
-  let profileuser= await userModel.findOne({_id:req.params.userId});
-
-  if(user.following.indexOf(req.params.userId) == -1){
+  if (user.following.indexOf(req.params.userId) == -1) {
     user.following.push(req.params.userId);
     profileuser.followers.push(user._id);
-
+  } else {
+    user.following.splice(user.following.indexOf(req.params.userId), 1);
+    profileuser.followers.splice(profileuser.followers.indexOf(user._id), 1);
   }
-  else{
-    user.following.splice(user.following.indexOf(req.params.userId),1)
-    profileuser.followers.splice(profileuser.followers.indexOf(user._id),1);
-
-  }
-   await user.save();
-   await profileuser.save();
-
+  await user.save();
+  await profileuser.save();
 
   //  console.log(user,profileuser);
 
+  //  console.log(user);
+  res.redirect("back");
+});
+
+// go back
+
+router.get("/goback", isloggedIn, async (req, res, next) => {
+  res.redirect("back");
+});
+
+
+
+
+//edit 
+
+
+router.get("/edit", isloggedIn, async (req, res, next) => {
+
+  let user= await userModel.findOne({username:req.session.passport.user});
+  
+  res.render("edit",{user});
+});
+
+
+
+//update
+
+
+router.post("/update", isloggedIn, async (req, res, next) => {
+
+ let {username,name,email,password} = req.body;
+
+  let newuser= await userModel.findOneAndUpdate({username:req.session.passport.user},{
+
+    username,
+    name,
+    email, 
+    
+  });
+  
+  res.redirect("/profile");
+});
+
+
+
+
+//comment
+
+router.post("/comment/:postId", isloggedIn, async (req, res, next) => {
+  
+//  console.log("hit")
+  let {text} = req.body;
+  let post = await postModel.findOne({_id:req.params.postId});
+  
+
+  let user= await userModel.findOne({username:req.session.passport.user});
+
+  let comment= await commentModel.create({
+    text,
+    user:user._id,
+    post:post._id
+
+
+  });
+
 
   
-  //  console.log(user);
-   res.redirect("back");
-})
+
+  post.comment.push(comment._id);
+  await post.save();
 
 
+  // console.log(comment,comment._id);
 
-
-
-
-
+  res.redirect("back");
+ });
 
 
 module.exports = router;

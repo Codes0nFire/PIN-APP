@@ -3,115 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Profile Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  box-sizing: border-box;
-}
+        .card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+        }
 
-body {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: black;
-  font-family: "Courier New", Courier, monospace;
-}
+        .card-img {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            object-fit: cover;
+            height: 100%;
+        }
 
-.card {
-  width: 360px;
-  height: fit-content;
-  padding: 16px;
-  background-color: azure;
-  border-radius: 8px;
-}
+        .link {
+            color: #1e90ff;
+            text-decoration: none;
+        }
 
-.card img {
-  width: 100%;
-}
+        .link:hover {
+            text-decoration: underline;
+        }
 
-.card .card-header {
-  display: flex;
-  position: relative;
-  overflow: hidden;
-}
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
 
-.card .card-header .location {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background-color: rgb(255, 255, 255);
-  padding: 8px;
-  border-radius: 4px;
-  color: rgb(43, 42, 42);
-}
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+        }
 
-.card .location i {
-  color: rgb(248, 34, 6);
-}
-
-.card .card-body {
-  padding: 16px 0 18px;
-}
-
-.card .card-body h3 {
-  color: #0a0516ec;
-  font-size: 24px;
-}
-
-.card .card-body p {
-  color: rgb(58, 58, 58);
-  font-size: 16px;
-  font-weight: 500;
-  margin: 4px 0 0;
-}
-
-.card .footer {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.card .footer .apply {
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-  font-size: 16px;
-  padding: 8px 16px;
-  background-color: rgb(3, 87, 243);
-  border-radius: 4px;
-  transition: transform 0.3s ease-in-out;
-   text-decoration: none;
-}
-
-.card .footer .apply:hover {
-  background-color: rgb(30, 109, 255);
-  transform: scale(1.02);
- 
-}
+        .comments-section {
+            margin-top: 20px;
+        }
 
 
+        .comments-section {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
 
+        
 
+        .comment {
+            font-size: 0.9rem;
+        }
 
+        .form-control {
+            border-radius: 20px;
+        }
+
+        .btn-outline-primary {
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .profile-img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
+
+        .header-buttons .btn {
+            margin-left: 5px;
+        }
+
+        .comment-section {
+            margin-top: 20px;
+            /* max-height:30vh;
+            overflow-y: auto; */
+            
+        }
+
+        .comment {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .comment input {
+            border-radius: 20px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .action-icons i {
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rounded-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+           
+        }
+
+        .back-arrow {
+            position: fixed;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .back-arrow i {
+            font-size: 24px;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-       <div class="card-header">
-          <img src="/images/uploads/<%= post.image  %>" alt="" srcset="">
-         
-       </div>
-       <div class="card-body">
-          <h3><%= post.title  %></h3>
-          <p><%= post.description  %></p>
-       </div>
-       <div class="footer">
-          <a href="/feed"  class="apply">Feed</a>
-       </div>
+    <div class="back-arrow">
+        <a href="/feed" class="text-decoration-none"><i class="fas fa-arrow-left"> <div class="btn btn-outline-primary" >feed</div>   </i></a>
     </div>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="row no-gutters">
+                <div class="col-md-6">
+                    <img src="/images/uploads/<%=post.image %>" class="card-img" alt="Image">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <a class="d-flex align-items-center mb-3 text-decoration-none" href="/profile/member/<%=post.user.id  %>">
+                                <img src="/images/uploads/<%=post.user.profileImage  %> " class="rounded-circle" alt="Profile Image">
+                                <div class="ml-2">
+                                    <h6 class="mb-0"><%=post.user.username  %></h6>
+                                    <p class="text-muted mb-0"><%=post.user.followers.length  %> followers</p>
+                                </div>
+                            </a>
+                            <a class="btn btn-outline-primary ml-auto" href="/save/<%= post.id  %>">
+                                <%= user.saved.indexOf(post.id)== -1 ? "save" : "saved"  %>
+                            </a>
+                        </div>
+                        <h6>Comments</h6>
+                        <div style="max-height: 67vh; overflow-y: auto; " class="comments-section" >
+                           
+
+                           <% post.comment.forEach(function(elem){ %>
+
+
+                               <div class="comment mb-2">
+
+
+                                <a class="text-decoration-none" href="/profile/member/<%=elem.user.id %>">
+          
+
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <img class="w-[15px] h-[15px] rounded-circle m-1" src="/images/uploads/<%=elem.user.profileImage  %>" alt="">
+                                        <strong><%=elem.user.username  %></strong>
+                                    </div>
+                                    
+                        
+                                     </a>
+
+                               
+
+
+                               <div class="mt-1 m-lg-1">
+                                <p class="mb-0 text-white"><%=elem.text  %></p>
+                                <small class="text-muted" data-time="<%= elem.createdAt %>"></small>
+                               </div>
+                            </div>
+
+
+
+                          <% }) %>
+
+                          
+                           
+                           
+                        </div>
+
+                        <form class="mt-2" action="/comment/<%=post.id %>" method="post" >
+                            <div class="form-group">
+                                <input name="text" type="text" class="form-control" placeholder="Add a comment">
+                                <input type="submit" class="btn btn-primary mt-2 " value="comment">
+                            </div>
+                        </form>
+                        <!-- <div class="card-footer">
+                            <span>1 comment</span>
+                            <div class="action-icons">
+                                <i class="fas fa-heart text-danger"></i> 20
+                                <i class="far fa-heart ml-2"></i>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
- </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.comments-section small[data-time]').forEach(function(element) {
+                const time = element.getAttribute('data-time');
+                element.textContent = moment(time).fromNow();
+            });
+        });
+    </script>
+    
+</body>
 </html>

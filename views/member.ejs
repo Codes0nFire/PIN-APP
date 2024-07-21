@@ -133,26 +133,19 @@
 
         <% user.userposts.forEach(function (post){  %>
 
+
+
+
+            <a class="text-decoration-none" href="/feed/<%= post.id  %>">
+          
+
            
             <div class="pin">
                 <img src="/images/uploads/<%= post.image  %>" alt="Pin 1">
-                <h6><%= post.title  %></h6>
-               
-              
-
-              
-               <div class="text-white d-flex align-items-center gap-1 justify-content-center">
-                <a class="btn btn-primary mt-4 " href="/save/<%= post.id  %>">
-                    <%= loguser.saved.indexOf(post.id)== -1 ? "save" : "saved"  %>
-                </a>
-                <i class="<%= loguser.saved.indexOf(post.id)== -1 ? "ri-bookmark-line" : "ri-bookmark-fill"  %>"></i>
-            </div>
-               
-          
             </div>
 
 
-
+             </a>
 
 
 

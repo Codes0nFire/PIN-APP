@@ -137,26 +137,9 @@ rel="stylesheet"
            <a class="text-decoration-none" href="/feed/<%= elem.id  %>">
             <div class="pin">
                 <img src="/images/uploads/<%= elem.image  %>" alt="Pin 1">
-                <h3><%= elem.title  %></h3>
                
-                <a class="text-decoration-none" href="/profile/member/<%= elem.user.id  %>">
-                    <div class="userdets ">
-                        <div class="userimg" >
-                            <img  src="/images/uploads/<%= elem.user.profileImage  %>" alt="">
-                        </div>
-                        <h3>@<%= elem.user.username  %></h3>
-                    </div>
-                </a>
 
 
-              
-               <div class="text-white d-flex align-items-center gap-1 justify-content-center">
-                <a class="btn btn-primary mt-4 " href="/save/<%= elem.id  %>">
-                    <%= user.saved.indexOf(elem.id)== -1 ? "save" : "saved"  %>
-                </a>
-                <i class="<%= user.saved.indexOf(elem.id)== -1 ? "ri-bookmark-line" : "ri-bookmark-fill"  %>"></i>
-            </div>
-               
           
             </div>
            </a>

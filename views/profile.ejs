@@ -113,7 +113,7 @@
 
       <div class=" container gap-5 d-flex align-items-center justify-content-center">
         <div class="card" style="width: 10vw;">
-            <img src="/images/uploads/<%= user?.userposts[0]?.image  %>" class="card-img-top" alt="...">
+            <img src="/images/uploads/<%= user?.userposts[0]?.image  %>" class="card-img-top" alt="">
             <div class="card-body">
               <a href="/allposts"  class=" btn btn-outline-dark  card-title">Created Pins :<%= user.userposts.length  %> </a>
             </div>
@@ -121,7 +121,7 @@
           </div>
 
           <div class="card" style="width: 10rem;">
-            <img src="/images/uploads/<%= user?.saved[0]?.image  %>" class="card-img-top" alt="...">
+            <img src="/images/uploads/<%= user?.saved[0]?.image  %>" class="card-img-top" alt="">
             <div class="card-body">
               <a href="/mysavedpins"  class=" btn btn-outline-dark  card-title"> Saved Pins :<%= user.saved.length  %> </a>
             </div>
