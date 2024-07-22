@@ -290,35 +290,20 @@ router.post("/comment/:postId", isloggedIn, async (req, res, next) => {
   res.redirect("back");
 });
 
-
-
 //leaderboard
 
-
-
-
 router.get("/leaderboard", isloggedIn, async (req, res, next) => {
-  
- 
+  let users = await userModel.find();
 
-  let users=await userModel.find();
+  let desusers = users.sort((a, b) => b.followers.length - a.followers.length);
 
-  let desusers=users.sort((a,b)=>b.followers.length - a.followers.length);
+  if (desusers.length > 5) {
+    var topusers = desusers.slice(0, 5);
+  } else {
+    topusers = [];
+  }
 
-
- if(desusers.length >5){
-  var topusers=desusers.slice(0,5);
- }
-
- else{
-  topusers=[];
- }
-
-
- 
-  
-
-  res.render("leaderboard",{topusers});
+  res.render("leaderboard", { topusers });
 });
 
 module.exports = router;

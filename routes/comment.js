@@ -1,18 +1,20 @@
-var mongoose= require("mongoose");
+var mongoose = require("mongoose");
 
+var commentSchema = mongoose.Schema(
+  {
+    text: String,
 
-var commentSchema=mongoose.Schema({
-text:String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
 
-user:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"user"
-},
+    post: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "post",
+    },
+  },
+  { timestamps: true }
+);
 
-post:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"post"
-}
-},{ timestamps: true });
-
-module.exports=mongoose.model("comment",commentSchema);
+module.exports = mongoose.model("comment", commentSchema);
