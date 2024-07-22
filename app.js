@@ -7,6 +7,7 @@ var ExpressSession=require("express-session");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var passport=require("passport");
+require("dotenv").config();
 
 var app = express();
 

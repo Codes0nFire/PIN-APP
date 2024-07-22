@@ -111,7 +111,7 @@
 
     <!-- Profile Header -->
     <div class="profile-header">
-        <img src="/images/uploads/<%=user.profileImage  %>" alt="Profile Picture">
+        <img src="/images/uploads/<%=user.profileImage || "default2.jpg" %>" alt="Profile Picture">
         <h1>@ <%= user.username  %> </h1>
        
         <p class="follow-info"> <%=user.followers.length  %> followers · <%=user.following.length  %> following</p>

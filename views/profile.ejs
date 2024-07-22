@@ -94,7 +94,7 @@
            </form>
       <div class=" d-flex align-items-center  justify-content-center position-relative ">
         
-        <img src="/images/uploads/<%= user.profileImage %>" alt="Profile Picture">
+        <img src="/images/uploads/<%=user.profileImage || "default2.jpg" %>" alt="Upload Picture">
        <div class="pencil-box bg-black d-flex align-items-center justify-content-center position-absolute  bottom-0 rounded-5 " > <i class="ri-pencil-fill text-light "></i></div>
       </div>
         <h1 class="text-white"><%= user.name  %></h1>

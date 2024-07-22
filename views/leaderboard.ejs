@@ -105,7 +105,7 @@
                         <a class="d-flex align-items-center mb-3 text-decoration-none" href="/profile/member/<%=user.id  %>">
                          
                             <div class="user-info">
-                                <img src="/images/uploads/<%=user.profileImage  %>" class="profile-img" alt="User 1">
+                                <img src="/images/uploads/<%=user.profileImage || "default2.jpg" %>" class="profile-img" alt="User 1">
                                 <span class="user-name"><%=user.username  %></span>
                             </div> 
                            
