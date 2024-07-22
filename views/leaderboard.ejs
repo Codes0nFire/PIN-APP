@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #1f1f1f;
+            color: white;
+        }
+
+        .card-header {
+            background-color: #333;
+            border-bottom: 1px solid #444;
+        }
+
+        .card-body {
+            background-color: #222;
+        }
+
+        .leaderboard-header {
+            margin-bottom: 20px;
+        }
+
+        .leaderboard-item {
+            border-bottom: 1px solid #444;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .user-score {
+            font-size: 1.2rem;
+        }
+
+        .back-arrow {
+            position: fixed;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .back-arrow i {
+            font-size: 24px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="back-arrow">
+        <a href="/feed" class="text-decoration-none"><i class="fas fa-arrow-left"></i><div class=""></div></a>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="leaderboard-header">famous</h3>
+            </div>
+            <div class="card-body">
+
+            <% if(topusers.length > 0){ %>
+
+                <% topusers.forEach(function(user){ %>
+
+                    <div class="leaderboard-item">
+    
+    
+                        <a class="d-flex align-items-center mb-3 text-decoration-none" href="/profile/member/<%=user.id  %>">
+                         
+                            <div class="user-info">
+                                <img src="/images/uploads/<%=user.profileImage  %>" class="profile-img" alt="User 1">
+                                <span class="user-name"><%=user.username  %></span>
+                            </div> 
+                           
+                        </a>
+    
+    
+    
+    
+                        
+                        <span class="user-score"><%=user.followers.length  %>  Followers</span>
+                    </div>
+    
+    
+                   <% }) %>
+    
+
+           <% } else { %>
+
+            <h1>Avilable soon</h1>
+
+          <% } %>
+          
+                
+            
+                <!-- Add more leaderboard items as needed -->
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

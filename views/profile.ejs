@@ -81,6 +81,7 @@
     <div class="d-flex gap-4">
       <!-- <a class="btn btn-primary  " href="/profile">Profile</a> -->
       <a class="btn btn-primary" href="/feed">Home</a>
+    
       <!-- <a class="btn btn-primary" href="/allposts">Posts</a> -->
       <a class="btn btn-danger" href="/logout">Logout</a>
     </div>
@@ -101,10 +102,20 @@
      <div class="d-flex gap-2">
         <a class="btn btn-primary" href="/edit">Edit</a>
         <a class="btn btn-danger" href="/add">Create Pin</a>
-
+       
      </div>
 
-     <p class="follow-info mt-4 text-white"> <%=user.followers.length  %> followers · <%=user.following.length  %> following</p>
+     <div class="d-flex gap-2 mt-2">
+      <div class="d-flex gap-2">
+        <p class="btn btn-primary text-white" ><%=user.followers.length  %> Followers</p>
+        <p class="btn btn-primary text-white" ><%=user.following.length  %> Following</p>
+       
+       
+     </div>
+     
+   </div>
+
+    
        
     </div> 
 
@@ -112,7 +123,7 @@
 
 
       <div class=" container gap-5 d-flex align-items-center justify-content-center">
-        <div class="card" style="width: 10vw;">
+        <div class="card" style="width: 10rem;">
             <img src="/images/uploads/<%= user?.userposts[0]?.image  %>" class="card-img-top" alt="">
             <div class="card-body">
               <a href="/allposts"  class=" btn btn-outline-dark  card-title">Created Pins :<%= user.userposts.length  %> </a>

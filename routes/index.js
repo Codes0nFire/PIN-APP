@@ -4,7 +4,7 @@ var router = express.Router();
 const upload = require("./multer");
 var userModel = require("./users");
 var postModel = require("./post");
-var commentModel=require("./comment");
+var commentModel = require("./comment");
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
@@ -141,18 +141,14 @@ router.get("/feed/:PostId", isloggedIn, async (req, res, next) => {
     .findOne({ _id: req.params.PostId })
     .populate("user")
     .populate({
-      path:"comment",
-      populate:{
-        path:"user",
-        model:"user"
-      }
+      path: "comment",
+      populate: {
+        path: "user",
+        model: "user",
+      },
     });
-    
 
-
-    
-
-    console.log(post);
+  console.log(post);
 
   res.render("pins", { user, post });
 });
@@ -246,72 +242,83 @@ router.get("/goback", isloggedIn, async (req, res, next) => {
   res.redirect("back");
 });
 
-
-
-
-//edit 
-
+//edit
 
 router.get("/edit", isloggedIn, async (req, res, next) => {
+  let user = await userModel.findOne({ username: req.session.passport.user });
 
-  let user= await userModel.findOne({username:req.session.passport.user});
-  
-  res.render("edit",{user});
+  res.render("edit", { user });
 });
-
-
 
 //update
 
-
 router.post("/update", isloggedIn, async (req, res, next) => {
+  let { username, name, email, password } = req.body;
 
- let {username,name,email,password} = req.body;
+  let newuser = await userModel.findOneAndUpdate(
+    { username: req.session.passport.user },
+    {
+      username,
+      name,
+      email,
+    }
+  );
 
-  let newuser= await userModel.findOneAndUpdate({username:req.session.passport.user},{
-
-    username,
-    name,
-    email, 
-    
-  });
-  
   res.redirect("/profile");
 });
-
-
-
 
 //comment
 
 router.post("/comment/:postId", isloggedIn, async (req, res, next) => {
-  
-//  console.log("hit")
-  let {text} = req.body;
-  let post = await postModel.findOne({_id:req.params.postId});
-  
+  //  console.log("hit")
+  let { text } = req.body;
+  let post = await postModel.findOne({ _id: req.params.postId });
 
-  let user= await userModel.findOne({username:req.session.passport.user});
+  let user = await userModel.findOne({ username: req.session.passport.user });
 
-  let comment= await commentModel.create({
+  let comment = await commentModel.create({
     text,
-    user:user._id,
-    post:post._id
-
-
+    user: user._id,
+    post: post._id,
   });
-
-
-  
 
   post.comment.push(comment._id);
   await post.save();
 
-
   // console.log(comment,comment._id);
 
   res.redirect("back");
- });
+});
 
+
+
+//leaderboard
+
+
+
+
+router.get("/leaderboard", isloggedIn, async (req, res, next) => {
+  
+ 
+
+  let users=await userModel.find();
+
+  let desusers=users.sort((a,b)=>b.followers.length - a.followers.length);
+
+
+ if(desusers.length >5){
+  var topusers=desusers.slice(0,5);
+ }
+
+ else{
+  topusers=[];
+ }
+
+
+ 
+  
+
+  res.render("leaderboard",{topusers});
+});
 
 module.exports = router;
