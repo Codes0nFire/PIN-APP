@@ -124,7 +124,7 @@
       <div
         class="pin d-flex flex-column align-items-center justify-content-center"
       >
-        <img src="/images/uploads/<%= elem.image  %>" alt="Pin 1" />
+        <img src="<%=elem.image.url  %>" alt="Pin 1" />
         <h3><%= elem.title %></h3>
 
         <a class="btn btn-danger" href="/delete/<%= elem.id  %>">Delete</a>

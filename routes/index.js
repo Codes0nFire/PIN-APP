@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
+const path=require("path");
 
 const upload = require("./multer");
+const imagekit=require("./imagekit");
 var userModel = require("./users");
 var postModel = require("./post");
 var commentModel = require("./comment");
@@ -10,6 +12,7 @@ var router = express.Router();
 var passport = require("passport");
 var localStrategy = require("passport-local");
 passport.use(new localStrategy(userModel.authenticate()));
+
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -76,11 +79,27 @@ router.get("/", isloggedIn, function (req, res, next) {
 router.post(
   "/fileupload",
   isloggedIn,
-  upload.single("image"),
+  
   async function (req, res, next) {
     var user = await userModel.findOne({ username: req.session.passport.user });
-    user.profileImage = req.file.filename;
-    await user.save();
+
+   const file=req.files.image;
+   const modifiedfilename=`profileimage-${Date.now()}${path.extname(file.name)}`;
+
+
+   if(user.profileImage.fileId !== ""){
+    await imagekit.deleteFile(user.profileImage.fileId)
+   }
+
+   const {fileId,url}= await imagekit.upload({
+    file:file.data,
+    fileName:modifiedfilename
+   });
+
+   user.profileImage={fileId,url};
+   await user.save();
+   
+    
     res.redirect("/profile");
   }
 );
@@ -92,14 +111,30 @@ router.get("/add", isloggedIn, function (req, res, next) {
 router.post(
   "/createpost",
   isloggedIn,
-  upload.single("postimage"),
+ 
   async function (req, res, next) {
     var user = await userModel.findOne({ username: req.session.passport.user });
+
+   
+    const file=req.files.postimage;
+    const modifiedfilename=`postimage-${Date.now()}${path.extname(file.name)}`;
+ 
+ 
+    
+ 
+    const {fileId,url}= await imagekit.upload({
+     file:file.data,
+     fileName:modifiedfilename
+    });
+ 
+    
+
+
 
     var post = await postModel.create({
       title: req.body.title,
       description: req.body.description,
-      image: req.file.filename,
+      image:{fileId,url},
       user: user._id,
     });
 
@@ -305,5 +340,30 @@ router.get("/leaderboard", isloggedIn, async (req, res, next) => {
 
   res.render("leaderboard", { topusers });
 });
+
+
+
+
+router.get("/leaderboard", isloggedIn, async (req, res, next) => {
+  let users = await userModel.find();
+
+  let desusers = users.sort((a, b) => b.followers.length - a.followers.length);
+
+  if (desusers.length > 5) {
+    var topusers = desusers.slice(0, 5);
+  } else {
+    topusers = [];
+  }
+
+  res.render("leaderboard", { topusers });
+});
+
+
+
+
+
+
+
+
 
 module.exports = router;

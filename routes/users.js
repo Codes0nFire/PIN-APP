@@ -16,8 +16,11 @@ var userSchema = mongoose.Schema({
   name: String,
 
   profileImage: {
-    type: String,
-    default: "default2.jpg",
+    type: Object,
+    default:{
+      fileId:"",
+      url:"https://i.pinimg.com/564x/d4/37/4b/d4374b6dc2934880eaa7a5e8989c1f64.jpg"
+    }
   },
   email: String,
   boards: {

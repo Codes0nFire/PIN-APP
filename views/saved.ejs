@@ -137,7 +137,7 @@
       <% user.saved.forEach( function(save){ %>
 
       <div class="pin">
-        <img src="/images/uploads/<%= save.image  %>" alt="Pin 1" />
+        <img src="<%= save.image.url  %>" alt="Pin 1" />
         <h3><%= save.title %></h3>
 
         <div

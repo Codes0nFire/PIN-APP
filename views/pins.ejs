@@ -144,7 +144,7 @@
         <div class="row no-gutters">
           <div class="col-md-6">
             <img
-              src="/images/uploads/<%=post.image %>"
+              src="<%=post.image.url  %>"
               class="card-img"
               alt="Image"
             />
@@ -156,8 +156,7 @@
                   class="d-flex align-items-center mb-3 text-decoration-none"
                   href="/profile/member/<%=post.user.id  %>"
                 >
-                  <img src="/images/uploads/<%=post.user.profileImage ||
-                  "default2.jpg" %>" class="rounded-circle" alt="Profile Image">
+                  <img src="<%=post.user.profileImage.url  %>" class="rounded-circle" alt="Profile Image">
                   <div class="ml-2">
                     <h6 class="mb-0"><%=post.user.username %></h6>
                     <p class="text-muted mb-0">
@@ -192,8 +191,7 @@
                   >
                     <div class="d-flex gap-3 align-items-center">
                       <img class="w-[15px] h-[15px] rounded-circle m-1"
-                      src="/images/uploads/<%=elem.user.profileImage ||
-                      "default2.jpg" %>" alt="">
+                      src="<%=elem.user.profileImage.url  %>" alt="">
                       <strong><%=elem.user.username %></strong>
                     </div>
                   </a>

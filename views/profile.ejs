@@ -94,7 +94,7 @@
            </form>
       <div class=" d-flex align-items-center  justify-content-center position-relative ">
         
-        <img src="/images/uploads/<%=user.profileImage || "default2.jpg" %>" alt="Upload Picture">
+        <img src="<%=user.profileImage.url  %>" alt="Upload Picture">
        <div class="pencil-box bg-black d-flex align-items-center justify-content-center position-absolute  bottom-0 rounded-5 " > <i class="ri-pencil-fill text-light "></i></div>
       </div>
         <h1 class="text-white"><%= user.name  %></h1>
@@ -124,7 +124,7 @@
 
       <div class=" container gap-5 d-flex align-items-center justify-content-center">
         <div class="card" style="width: 10rem;">
-            <img src="/images/uploads/<%= user?.userposts[0]?.image  %>" class="card-img-top" alt="">
+            <img src="<%= user?.userposts[0]?.image.url  %>" class="card-img-top" alt="">
             <div class="card-body">
               <a href="/allposts"  class=" btn btn-outline-dark  card-title">Created Pins :<%= user.userposts.length  %> </a>
             </div>
@@ -132,7 +132,7 @@
           </div>
 
           <div class="card" style="width: 10rem;">
-            <img src="/images/uploads/<%= user?.saved[0]?.image  %>" class="card-img-top" alt="">
+            <img src="<%= user?.saved[0]?.image.url  %>" class="card-img-top" alt="">
             <div class="card-body">
               <a href="/mysavedpins"  class=" btn btn-outline-dark  card-title"> Saved Pins :<%= user.saved.length  %> </a>
             </div>

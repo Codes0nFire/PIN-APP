@@ -113,7 +113,7 @@
 
     <!-- Profile Header -->
     <div class="profile-header">
-      <img src="/images/uploads/<%=user.profileImage || "default2.jpg" %>"
+      <img src="<%=user.profileImage.url  %>"
       alt="Profile Picture">
       <h1>@ <%= user.username %></h1>
 
@@ -138,7 +138,7 @@
 
         <a class="text-decoration-none" href="/feed/<%= post.id  %>">
           <div class="pin">
-            <img src="/images/uploads/<%= post.image  %>" alt="Pin 1" />
+            <img src="<%=post.image.url  %>" alt="Pin 1" />
           </div>
         </a>
 

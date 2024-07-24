@@ -9,6 +9,8 @@ var usersRouter = require("./routes/users");
 var passport = require("passport");
 require("dotenv").config();
 
+const fileupload=require("express-fileupload")
+
 var app = express();
 
 // view engine setup
@@ -32,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(fileupload());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

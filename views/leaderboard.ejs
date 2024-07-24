@@ -111,7 +111,7 @@
               href="/profile/member/<%=user.id  %>"
             >
               <div class="user-info">
-                <img src="/images/uploads/<%=user.profileImage || "default2.jpg"
+                <img src="<%=user.profileImage.url  %>"
                 %>" class="profile-img" alt="User 1">
                 <span class="user-name"><%=user.username %></span>
               </div>
